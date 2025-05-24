@@ -12,5 +12,6 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(console.error);
 
 app.use('/api/properties', require('./routes/propertyRoutes'));
+app.use('/api/saved', require('./routes/savedPropertyRoutes'));
 
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
