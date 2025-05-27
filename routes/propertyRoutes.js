@@ -23,4 +23,27 @@ router.get('/:id', async (req, res) => {
   res.json(property);
 });
 
+// Enhanced GET route with filters
+router.get('/', async (req, res) => {
+  const { minPrice, maxPrice, location, keyword } = req.query;
+  let query = {};
+
+  if (minPrice || maxPrice) {
+    query.price = {};
+    if (minPrice) query.price.$gte = Number(minPrice);
+    if (maxPrice) query.price.$lte = Number(maxPrice);
+  }
+
+  if (location) {
+    query.location = new RegExp(location, 'i');
+  }
+
+  if (keyword) {
+    query.title = new RegExp(keyword, 'i');
+  }
+
+  const properties = await Property.find(query).populate('createdBy', 'name');
+  res.json(properties);
+});
+
 module.exports = router;
