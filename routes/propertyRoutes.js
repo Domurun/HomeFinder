@@ -45,5 +45,4 @@ router.get('/', async (req, res) => {
   const properties = await Property.find(query).populate('createdBy', 'name');
   res.json(properties);
 });
-
 module.exports = router;
